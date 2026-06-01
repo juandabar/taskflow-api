@@ -1,10 +1,22 @@
 {
+  "lint-staged": {
+    "src/**/*.ts": [
+      "prettier --write",
+      "eslint"
+    ]
+  },
   "name": "taskflow-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src",
+    "format": "prettier --write src",
+    "test": "vitest",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -26,16 +38,25 @@
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "fastify": "^5.8.5",
+    "husky": "^9.1.7",
     "jsonwebtoken": "^9.0.3",
+    "lint-staged": "^17.0.7",
     "pino": "^10.3.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.13",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.1",
+    "@typescript-eslint/eslint-plugin": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.0",
     "drizzle-kit": "^0.31.10",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.3",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
