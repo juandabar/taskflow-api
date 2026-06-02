@@ -1,3 +1,5 @@
+import { ValidationError } from '../errors/ValidationError.js';
+
 interface ICommentProps {
   id: string;
   content: string;
@@ -36,6 +38,22 @@ export class Comment {
   }
 
   static create(comment: ICommentProps): Comment {
+    if (!comment.id) {
+      throw new ValidationError('id is required');
+    }
+
+    if (!comment.content) {
+      throw new ValidationError('content is required');
+    }
+
+    if (!comment.taskId) {
+      throw new ValidationError('taskId is required');
+    }
+
+    if (!comment.authorId) {
+      throw new ValidationError('authorId is required');
+    }
+
     return new Comment(
       comment.id,
       comment.content,
