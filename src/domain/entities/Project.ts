@@ -56,6 +56,30 @@ export class Project {
   }
 
   static create(project: IProjectProps): Project {
+    if (!project.id) {
+      throw new ValidationError('id is required');
+    }
+
+    if (!project.name) {
+      throw new ValidationError('name is required');
+    }
+
+    if (!project.description) {
+      throw new ValidationError('description is required');
+    }
+
+    if (!project.ownerId) {
+      throw new ValidationError('ownerId is required');
+    }
+
+    if (!project.status) {
+      throw new ValidationError('status is required');
+    }
+
+    if (!project.createdAt) {
+      throw new ValidationError('createdAt is required');
+    }
+
     return new Project(
       project.id,
       project.name,

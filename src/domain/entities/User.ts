@@ -49,6 +49,18 @@ export class User {
       throw new ValidationError('Invalid email format');
     }
 
+    if (!user.id) {
+      throw new ValidationError('id is required');
+    }
+
+    if (!user.name) {
+      throw new ValidationError('name is required');
+    }
+
+    if (!user.passwordHash) {
+      throw new ValidationError('passwordHash is required');
+    }
+
     return new User(user.id, user.name, user.email, user.passwordHash, user.role, user.createdAt);
   }
 }
