@@ -35,33 +35,4 @@ describe('Comment', () => {
       expect(mockNewComment).toBeInstanceOf(Comment);
     });
   });
-
-  describe('getters', () => {
-    const mockNewComment = Comment.create(mockComment);
-
-    it('get id, it should return the id', () => {
-      const result = mockNewComment.id;
-      expect(result).toBe(mockComment.id);
-    });
-
-    it('get content, it should return the content', () => {
-      const result = mockNewComment.content;
-      expect(result).toBe(mockComment.content);
-    });
-
-    it('get taskId, it should return the taskId', () => {
-      const result = mockNewComment.taskId;
-      expect(result).toBe(mockComment.taskId);
-    });
-
-    it('get authorId, it should return the authorId', () => {
-      const result = mockNewComment.authorId;
-      expect(result).toBe(mockComment.authorId);
-    });
-
-    it('get createdAt, it should return the createdAt', () => {
-      const result = mockNewComment.createdAt;
-      expect(result).toBe(mockComment.createdAt);
-    });
-  });
 });

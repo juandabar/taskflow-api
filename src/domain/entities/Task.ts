@@ -86,6 +86,22 @@ export class Task {
   }
 
   static create(task: ITaskProps): Task {
+    if (!task.id) {
+      throw new ValidationError('id is required');
+    }
+
+    if (!task.title) {
+      throw new ValidationError('title is required');
+    }
+
+    if (!task.description) {
+      throw new ValidationError('description is required');
+    }
+
+    if (!task.projectId) {
+      throw new ValidationError('projectId is required');
+    }
+
     if (task.dueDate && task.dueDate < new Date()) {
       throw new ValidationError('dueDate cannot be in the past');
     }
