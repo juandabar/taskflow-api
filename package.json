@@ -16,7 +16,9 @@
     "lint": "eslint src",
     "format": "prettier --write src",
     "test": "vitest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "repository": {
     "type": "git",
