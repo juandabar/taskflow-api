@@ -6,3 +6,5 @@ export const PRIORITY = {
 } as const;
 
 export type Priority = (typeof PRIORITY)[keyof typeof PRIORITY];
+
+export const PRIORITY_VALUES = Object.values(PRIORITY) as [Priority, ...Priority[]];
