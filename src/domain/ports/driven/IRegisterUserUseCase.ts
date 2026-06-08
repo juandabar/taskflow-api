@@ -1,7 +1,7 @@
-import { User } from "../../entities/User.js";
-import { UserRole } from "../../value-objects/UserRole.js";
+import { User } from '../../entities/User.js';
+import { UserRole } from '../../value-objects/UserRole.js';
 
-export interface IRegisterUserInput  {
+export interface IRegisterUserInput {
   name: string;
   email: string;
   password: string;
@@ -9,5 +9,5 @@ export interface IRegisterUserInput  {
 }
 
 export interface IRegisterUserUseCase {
-    execute(input: IRegisterUserInput ): Promise<User>
+  execute(input: IRegisterUserInput): Promise<User>;
 }

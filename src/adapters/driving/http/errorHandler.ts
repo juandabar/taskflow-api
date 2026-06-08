@@ -17,7 +17,7 @@ export const errorHandler = (
   error: FastifyError | Error,
   _request: FastifyRequest,
   reply: FastifyReply,
-) => {
+): void => {
   let status = 500;
   let title = 'Internal server error';
   let slug = 'internal-server-error';
@@ -48,9 +48,12 @@ export const errorHandler = (
     slug = 'validation';
   }
 
-  const detail = error instanceof ZodError
-    ? `${error.issues[0].path}: ${error.issues[0].message}`
-    : status !== 500 ? error.message : 'An unexpected error occurred';
+  const detail =
+    error instanceof ZodError
+      ? `${error.issues[0].path}: ${error.issues[0].message}`
+      : status !== 500
+        ? error.message
+        : 'An unexpected error occurred';
 
   const body: IErrorResponseBody = {
     type: `https://taskflow.api/errors/${slug}`,

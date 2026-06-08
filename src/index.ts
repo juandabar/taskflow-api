@@ -2,7 +2,7 @@ import { env } from './infrastructure/config/env.js';
 import { logger } from './infrastructure/logger.js';
 import { buildServer } from './infrastructure/server.js';
 
-const main = async () => {
+const main = async (): Promise<void> => {
   const server = await buildServer();
 
   await server.listen({
