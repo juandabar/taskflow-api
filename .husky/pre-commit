@@ -1,3 +1,6 @@
+echo "Arreglando el formato del código: indentación y espacios."
+npm run format
+
 echo "Revisando estilos y tipos..."
 npx lint-staged
 
