@@ -14,6 +14,6 @@ const passwordHasher = new BcryptPasswordHasher();
 
 const registerUserUseCase = new RegisterUserUseCase(userRepository, passwordHasher);
 
-const userController = new UserController();
+const userController = new UserController(registerUserUseCase);
 
 export { userController };

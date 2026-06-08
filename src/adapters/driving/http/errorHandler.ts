@@ -4,6 +4,7 @@ import { ForbiddenError } from '../../../domain/errors/ForbiddenError.js';
 import { NotFoundError } from '../../../domain/errors/NotFoundError.js';
 import { UnauthorizedError } from '../../../domain/errors/UnauthorizedError.js';
 import { ValidationError } from '../../../domain/errors/ValidationError.js';
+import { ZodError } from 'zod';
 
 interface IErrorResponseBody {
   type: string;
@@ -14,14 +15,12 @@ interface IErrorResponseBody {
 
 export const errorHandler = (
   error: FastifyError | Error,
-  request: FastifyRequest,
+  _request: FastifyRequest,
   reply: FastifyReply,
 ) => {
   let status = 500;
   let title = 'Internal server error';
   let slug = 'internal-server-error';
-
-  request.log.error({ url: request.url, method: request.method }, error.message);
 
   if (error instanceof ConflictError) {
     status = 409;
@@ -43,13 +42,21 @@ export const errorHandler = (
     status = 400;
     title = 'Validation error';
     slug = 'validation';
+  } else if (error instanceof ZodError) {
+    status = 400;
+    title = 'Validation error';
+    slug = 'validation';
   }
+
+  const detail = error instanceof ZodError
+    ? `${error.issues[0].path}: ${error.issues[0].message}`
+    : status !== 500 ? error.message : 'An unexpected error occurred';
 
   const body: IErrorResponseBody = {
     type: `https://taskflow.api/errors/${slug}`,
     title,
     status,
-    detail: status !== 500 ? error.message : 'An unexpected error occurred',
+    detail,
   };
 
   reply.status(status).send(body);
