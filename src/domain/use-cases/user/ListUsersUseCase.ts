@@ -1,7 +1,8 @@
 import { User } from '../../entities/User.js';
+import { IListUsersUseCase } from '../../ports/driven/IListUsersUseCase.js';
 import { IUserRepository } from '../../ports/driven/IUserRepository.js';
 
-export class ListUsersUseCase {
+export class ListUsersUseCase implements IListUsersUseCase {
   constructor(private userRepository: IUserRepository) {}
 
   async execute(): Promise<User[]> {
