@@ -7,9 +7,11 @@ import { IPasswordHasher } from '../../ports/driven/IPasswordHasher.js';
 import { User } from '../../entities/User.js';
 import { randomUUID } from 'node:crypto';
 import { USER_ROLE } from '../../value-objects/UserRole.js';
+import { IJwtService } from '../../ports/driven/IJwtService.js';
 
 let mockUserRepository: IUserRepository;
 let mockPasswordHasher: IPasswordHasher;
+let mockJwtService: IJwtService;
 
 let mockLoginUserUseCase: LoginUserUseCase;
 
@@ -27,7 +29,16 @@ describe('LoginUserUseCase', () => {
       compare: vi.fn(),
     };
 
-    mockLoginUserUseCase = new LoginUserUseCase(mockUserRepository, mockPasswordHasher);
+    mockJwtService = {
+      sign: vi.fn(),
+      verify: vi.fn(),
+    };
+
+    mockLoginUserUseCase = new LoginUserUseCase(
+      mockUserRepository,
+      mockPasswordHasher,
+      mockJwtService,
+    );
   });
 
   describe('execute()', () => {
@@ -71,7 +82,7 @@ describe('LoginUserUseCase', () => {
       );
     });
 
-    it('should return the logged-in user correctly', async () => {
+    it("should return the token's logged-in user correctly", async () => {
       const mockUser = User.create({
         id: randomUUID(),
         name: 'name',
@@ -80,14 +91,15 @@ describe('LoginUserUseCase', () => {
         role: USER_ROLE.MEMBER,
         createdAt: new Date(),
       });
+      const mockToken = '12345-ABCDEF-98765';
 
       vi.mocked(mockUserRepository.findByEmail).mockResolvedValue(mockUser);
       vi.mocked(mockPasswordHasher.compare).mockResolvedValue(true);
+      vi.mocked(mockJwtService.sign).mockReturnValue(mockToken);
 
       const result = await mockLoginUserUseCase.execute(mockInput);
 
-      expect(result).toBeDefined();
-      expect(result).toBeInstanceOf(User);
+      expect(result).toBe(mockToken);
       expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(mockInput.email);
       expect(mockPasswordHasher.compare).toHaveBeenCalledWith(
         mockInput.password,

@@ -1,20 +1,24 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { RegisterUserSchema } from '../schemas/user.schema.js';
+import {
+  LoginUserSchema,
+  PathParamsUserSchema,
+  RegisterUserSchema,
+} from '../schemas/user.schema.js';
 import { IRegisterUserUseCase } from '../../../../domain/ports/driven/IRegisterUserUseCase.js';
 import { USER_ROLE, UserRole } from '../../../../domain/value-objects/UserRole.js';
-
-interface IRegisterResponse {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  createdAt: Date;
-}
+import { ILoginUserUseCase } from '../../../../domain/ports/driven/ILoginUserUseCase.js';
+import { IListUsersUseCase } from '../../../../domain/ports/driven/IListUsersUseCase.js';
+import { IGetUserByIdUseCase } from '../../../../domain/ports/driven/IGetUserByIdUseCase.js';
 
 export class UserController {
-  constructor(private registerUserUseCase: IRegisterUserUseCase) {}
+  constructor(
+    private registerUserUseCase: IRegisterUserUseCase,
+    private loginUserUseCase: ILoginUserUseCase,
+    private listUsersUseCase: IListUsersUseCase,
+    private getUserByIdUseCase: IGetUserByIdUseCase,
+  ) {}
 
-  async register(request: FastifyRequest, reply: FastifyReply): Promise<IRegisterResponse> {
+  async register(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const body = RegisterUserSchema.parse(request.body);
 
     const newUser = await this.registerUserUseCase.execute({
@@ -24,12 +28,51 @@ export class UserController {
       role: USER_ROLE.MEMBER,
     });
 
-    return reply.status(201).send({
+    reply.status(201).send({
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
       createdAt: newUser.createdAt,
+    });
+  }
+
+  async login(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const body = LoginUserSchema.parse(request.body);
+
+    const token = await this.loginUserUseCase.execute({
+      email: body.email,
+      password: body.password,
+    });
+
+    reply.status(200).send({ token });
+  }
+
+  async list(_request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const users = await this.listUsersUseCase.execute();
+
+    reply.send(
+      users.map((u) => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        role: u.role,
+        createdAt: u.createdAt,
+      })),
+    );
+  }
+
+  async getUserById(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const params = PathParamsUserSchema.parse(request.params);
+
+    const user = await this.getUserByIdUseCase.execute(params.id);
+
+    reply.send({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
     });
   }
 }
