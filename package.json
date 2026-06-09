@@ -19,7 +19,8 @@
     "test:coverage": "vitest run --coverage",
     "prepare": "husky",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "seed": "tsx src/infrastructure/seed.ts"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,3 @@
-import { User } from '../../entities/User.js';
-
 export interface ILoginUserInput {
   email: string;
   password: string;

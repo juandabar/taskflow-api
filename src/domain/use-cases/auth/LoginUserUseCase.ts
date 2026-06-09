@@ -1,4 +1,3 @@
-import { User } from '../../entities/User.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { UnauthorizedError } from '../../errors/UnauthorizedError.js';
 import { IJwtService } from '../../ports/driven/IJwtService.js';

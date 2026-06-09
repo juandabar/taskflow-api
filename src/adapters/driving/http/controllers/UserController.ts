@@ -5,10 +5,11 @@ import {
   RegisterUserSchema,
 } from '../schemas/user.schema.js';
 import { IRegisterUserUseCase } from '../../../../domain/ports/driven/IRegisterUserUseCase.js';
-import { USER_ROLE, UserRole } from '../../../../domain/value-objects/UserRole.js';
+import { USER_ROLE } from '../../../../domain/value-objects/UserRole.js';
 import { ILoginUserUseCase } from '../../../../domain/ports/driven/ILoginUserUseCase.js';
 import { IListUsersUseCase } from '../../../../domain/ports/driven/IListUsersUseCase.js';
 import { IGetUserByIdUseCase } from '../../../../domain/ports/driven/IGetUserByIdUseCase.js';
+import { ForbiddenError } from '../../../../domain/errors/ForbiddenError.js';
 
 export class UserController {
   constructor(
@@ -48,7 +49,10 @@ export class UserController {
     reply.status(200).send({ token });
   }
 
-  async list(_request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  async list(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    if (request.userRole !== USER_ROLE.ADMIN) {
+      throw new ForbiddenError('this resource is only for admin users');
+    }
     const users = await this.listUsersUseCase.execute();
 
     reply.send(
