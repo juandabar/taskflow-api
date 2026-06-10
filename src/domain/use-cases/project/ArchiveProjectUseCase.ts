@@ -1,9 +1,10 @@
 import { ForbiddenError } from '../../errors/ForbiddenError.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
+import { IArchiveProjectUseCase } from '../../ports/driven/IArchiveProjectUseCase.js';
 import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
 
-export class ArchiveProjectUseCase {
+export class ArchiveProjectUseCase implements IArchiveProjectUseCase {
   constructor(private projectRepository: IProjectRepository) {}
 
   async execute(userId: string, projectId: string): Promise<void> {

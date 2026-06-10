@@ -5,6 +5,12 @@ import {
   PathParamsUserSchema,
   RegisterUserSchema,
 } from '../adapters/driving/http/schemas/user.schema.js';
+import {
+  CreateProjectSchema,
+  FileProjectSchema,
+  PathProjectSchema,
+  QueryProjectSchema,
+} from '../adapters/driving/http/schemas/project.schema.js';
 
 export const registry = new OpenAPIRegistry();
 
@@ -15,9 +21,6 @@ registry.registerComponent('securitySchemes', 'bearerAuth', {
 });
 
 registry.register('RegisterUserRequest', RegisterUserSchema);
-registry.register('LoginUserRequest', LoginUserSchema);
-registry.register('UserPathParams', PathParamsUserSchema);
-
 registry.registerPath({
   method: 'post',
   path: '/auth/register',
@@ -38,6 +41,7 @@ registry.registerPath({
   },
 });
 
+registry.register('LoginUserRequest', LoginUserSchema);
 registry.registerPath({
   method: 'post',
   path: '/auth/login',
@@ -68,22 +72,99 @@ registry.registerPath({
   responses: {
     200: { description: 'Array with the registered users' },
     403: { description: 'Endpoint only for admins' },
+    401: { description: 'Invalid or expired token' },
   },
 });
 
+registry.register('UserPathParams', PathParamsUserSchema);
 registry.registerPath({
   method: 'get',
   path: '/user/{id}',
   tags: ['Users'],
-  summary: 'Get the user filtered by id',
+  summary: 'Get user by ID',
   security: [{ bearerAuth: [] }],
   request: {
     params: PathParamsUserSchema,
   },
   responses: {
     200: { description: 'User found' },
-    400: { description: 'Required parameters' },
+    400: { description: 'Invalid request parameters' },
     404: { description: 'User not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('CreateProjectRequest', CreateProjectSchema);
+registry.registerPath({
+  method: 'post',
+  path: '/projects',
+  tags: ['Projects'],
+  summary: 'Create project',
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: CreateProjectSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: 'Created Project' },
+    400: { description: 'Invalid request body' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('ProjectQuery', QueryProjectSchema);
+registry.registerPath({
+  method: 'get',
+  path: '/projects',
+  tags: ['Projects'],
+  summary: 'List projects',
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: QueryProjectSchema,
+  },
+  responses: {
+    200: { description: 'Projects' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('ProjectPath', PathProjectSchema);
+registry.registerPath({
+  method: 'get',
+  path: '/projects/{id}',
+  tags: ['Projects'],
+  summary: 'The project',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: PathProjectSchema,
+  },
+  responses: {
+    200: { description: 'Project found' },
+    404: { description: 'Project not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('FileProjectRequest', FileProjectSchema);
+registry.registerPath({
+  method: 'patch',
+  path: '/projects/{id}/archive',
+  tags: ['Projects'],
+  summary: 'Archive project',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: FileProjectSchema,
+  },
+  responses: {
+    200: { description: 'Archived project' },
+    400: { description: 'Invalid request' },
+    403: { description: 'Action not permitted' },
+    404: { description: 'Project not found' },
   },
 });
 
