@@ -3,17 +3,15 @@ import { ValidationError } from '../../errors/ValidationError.js';
 import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
 import { randomUUID } from 'node:crypto';
 import { PROJECT_STATUS } from '../../value-objects/ProjectStatus.js';
+import {
+  ICreateProjectInput,
+  ICreateProjectUseCase,
+} from '../../ports/driven/ICreateProjectUseCase.js';
 
-interface IInputProps {
-  name: string;
-  description: string;
-  ownerId: string;
-}
-
-export class CreateProjectUseCase {
+export class CreateProjectUseCase implements ICreateProjectUseCase {
   constructor(private projectRepository: IProjectRepository) {}
 
-  async execute(input: IInputProps): Promise<Project> {
+  async execute(input: ICreateProjectInput): Promise<Project> {
     if (!input.name) {
       throw new ValidationError('name is required');
     }
