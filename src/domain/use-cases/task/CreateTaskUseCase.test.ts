@@ -103,6 +103,21 @@ describe('CreateTaskUseCase', () => {
       expect(projectRepository.findById).toHaveBeenCalledWith(mockInput.projectId);
     });
 
+    it('should throw an error when creating a task with a due date in the past', async () => {
+      vi.mocked(projectRepository.findById).mockResolvedValue(mockProject);
+
+      const pastDate = new Date();
+      pastDate.setMinutes(pastDate.getMinutes() - 5);
+
+      const result = createTaskUseCase.execute({
+        ...mockInput,
+        dueDate: pastDate,
+      });
+
+      await expect(result).rejects.toThrow(new ValidationError('dueDate cannot be in the past'));
+      expect(projectRepository.save).not.toHaveBeenCalled();
+    });
+
     it('should return the created task', async () => {
       vi.mocked(projectRepository.findById).mockResolvedValue(mockProject);
 

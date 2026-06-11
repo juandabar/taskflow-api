@@ -6,7 +6,7 @@ import { PROJECT_STATUS } from '../../value-objects/ProjectStatus.js';
 import {
   ICreateProjectInput,
   ICreateProjectUseCase,
-} from '../../ports/driven/ICreateProjectUseCase.js';
+} from '../../ports/driving/ICreateProjectUseCase.js';
 
 export class CreateProjectUseCase implements ICreateProjectUseCase {
   constructor(private projectRepository: IProjectRepository) {}

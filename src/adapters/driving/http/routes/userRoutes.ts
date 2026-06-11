@@ -8,7 +8,6 @@ export async function userRoutes(
 ): Promise<void> {
   fastify.post('/auth/register', (req, reply) => controller.register(req, reply));
   fastify.post('/auth/login', (req, reply) => controller.login(req, reply));
-
   fastify.get('/users/list', { preHandler: [authGuard] }, (req, reply) =>
     controller.list(req, reply),
   );

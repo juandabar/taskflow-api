@@ -5,10 +5,10 @@ import {
   PathProjectSchema,
   QueryProjectSchema,
 } from '../schemas/project.schema.js';
-import { ICreateProjectUseCase } from '../../../../domain/ports/driven/ICreateProjectUseCase.js';
-import { IListProjectsUseCase } from '../../../../domain/ports/driven/IListProjectsUseCase.js';
-import { IGetProjectByIdUseCase } from '../../../../domain/ports/driven/IGetProjectByIdUseCase.js';
-import { IArchiveProjectUseCase } from '../../../../domain/ports/driven/IArchiveProjectUseCase.js';
+import { ICreateProjectUseCase } from '../../../../domain/ports/driving/ICreateProjectUseCase.js';
+import { IListProjectsUseCase } from '../../../../domain/ports/driving/IListProjectsUseCase.js';
+import { IGetProjectByIdUseCase } from '../../../../domain/ports/driving/IGetProjectByIdUseCase.js';
+import { IArchiveProjectUseCase } from '../../../../domain/ports/driving/IArchiveProjectUseCase.js';
 
 export class ProjectController {
   constructor(

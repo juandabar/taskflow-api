@@ -1,5 +1,5 @@
 import { User } from '../../entities/User.js';
-import { IListUsersUseCase } from '../../ports/driven/IListUsersUseCase.js';
+import { IListUsersUseCase } from '../../ports/driving/IListUsersUseCase.js';
 import { IUserRepository } from '../../ports/driven/IUserRepository.js';
 
 export class ListUsersUseCase implements IListUsersUseCase {

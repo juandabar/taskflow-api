@@ -1,27 +1,20 @@
-import { Task } from '../../entities/Task.js';
-import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
-import { Priority } from '../../value-objects/Priority.js';
-import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
-import { ValidationError } from '../../errors/ValidationError.js';
 import { randomUUID } from 'node:crypto';
-import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
-import { NotFoundError } from '../../errors/NotFoundError.js';
+import { Task } from '../../entities/Task.js';
 import { ConflictError } from '../../errors/ConflictError.js';
+import { NotFoundError } from '../../errors/NotFoundError.js';
+import { ValidationError } from '../../errors/ValidationError.js';
+import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
+import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
+import { ICreateTaskInput, ICreateTaskUseCase } from '../../ports/driving/ICreateTaskUseCase.js';
+import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
 
-interface IInputProps {
-  title: string;
-  description: string;
-  projectId: string;
-  priority: Priority;
-}
-
-export class CreateTaskUseCase {
+export class CreateTaskUseCase implements ICreateTaskUseCase {
   constructor(
     private taskRepository: ITaskRepository,
     private projectRepository: IProjectRepository,
   ) {}
 
-  async execute(input: IInputProps): Promise<Task> {
+  async execute(input: ICreateTaskInput): Promise<Task> {
     if (!input.projectId) {
       throw new ValidationError('projectId is required');
     }
@@ -56,6 +49,7 @@ export class CreateTaskUseCase {
       status: TASK_STATUS.TODO,
       priority: input.priority,
       createdAt: new Date(),
+      dueDate: input.dueDate ?? undefined,
     });
 
     await this.taskRepository.save(newTask);

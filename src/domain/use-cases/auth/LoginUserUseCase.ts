@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { UnauthorizedError } from '../../errors/UnauthorizedError.js';
 import { IJwtService } from '../../ports/driven/IJwtService.js';
-import { ILoginUserInput, ILoginUserUseCase } from '../../ports/driven/ILoginUserUseCase.js';
+import { ILoginUserInput, ILoginUserUseCase } from '../../ports/driving/ILoginUserUseCase.js';
 import { IPasswordHasher } from '../../ports/driven/IPasswordHasher.js';
 import { IUserRepository } from '../../ports/driven/IUserRepository.js';
 
