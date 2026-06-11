@@ -1,7 +1,7 @@
 import { Project } from '../../entities/Project.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
-import { IGetProjectByIdUseCase } from '../../ports/driven/IGetProjectByIdUseCase.js';
+import { IGetProjectByIdUseCase } from '../../ports/driving/IGetProjectByIdUseCase.js';
 import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
 
 export class GetProjectByIdUseCase implements IGetProjectByIdUseCase {

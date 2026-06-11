@@ -1,7 +1,7 @@
 import { User } from '../../entities/User.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
-import { IGetUserByIdUseCase } from '../../ports/driven/IGetUserByIdUseCase.js';
+import { IGetUserByIdUseCase } from '../../ports/driving/IGetUserByIdUseCase.js';
 import { IUserRepository } from '../../ports/driven/IUserRepository.js';
 
 export class GetUserByIdUseCase implements IGetUserByIdUseCase {

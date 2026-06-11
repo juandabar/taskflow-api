@@ -1,16 +1,24 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
 import { OpenAPIV3 } from 'openapi-types';
-import {
-  LoginUserSchema,
-  PathParamsUserSchema,
-  RegisterUserSchema,
-} from '../adapters/driving/http/schemas/user.schema.js';
+import { CreateCommentSchema } from '../adapters/driving/http/schemas/comment.schema.js';
 import {
   CreateProjectSchema,
   FileProjectSchema,
   PathProjectSchema,
   QueryProjectSchema,
 } from '../adapters/driving/http/schemas/project.schema.js';
+import {
+  AssignTaskSchema,
+  CreateTaskSchema,
+  ListTaskSchema,
+  TaskParamsSchema,
+  UpdateTaskSchema,
+} from '../adapters/driving/http/schemas/task.schema.js';
+import {
+  LoginUserSchema,
+  PathParamsUserSchema,
+  RegisterUserSchema,
+} from '../adapters/driving/http/schemas/user.schema.js';
 
 export const registry = new OpenAPIRegistry();
 
@@ -65,7 +73,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/user/list',
+  path: '/users/list',
   tags: ['Users'],
   summary: 'List all users',
   security: [{ bearerAuth: [] }],
@@ -79,7 +87,7 @@ registry.registerPath({
 registry.register('UserPathParams', PathParamsUserSchema);
 registry.registerPath({
   method: 'get',
-  path: '/user/{id}',
+  path: '/users/{id}',
   tags: ['Users'],
   summary: 'Get user by ID',
   security: [{ bearerAuth: [] }],
@@ -165,6 +173,141 @@ registry.registerPath({
     400: { description: 'Invalid request' },
     403: { description: 'Action not permitted' },
     404: { description: 'Project not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('CreateTaskRequest', CreateTaskSchema);
+registry.registerPath({
+  method: 'post',
+  path: '/tasks',
+  tags: ['Tasks'],
+  summary: 'Task creation',
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: CreateTaskSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: 'Created task' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Project not found' },
+    409: { description: 'Conflict in task creation' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('ListTaskQuery', ListTaskSchema);
+registry.registerPath({
+  method: 'get',
+  path: '/tasks',
+  tags: ['Tasks'],
+  summary: 'Filtered tasks',
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: ListTaskSchema,
+  },
+  responses: {
+    200: { description: 'Found tasks' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Project not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('TaskParamsRequest', TaskParamsSchema);
+registry.registerPath({
+  method: 'get',
+  path: '/tasks/{id}',
+  tags: ['Tasks'],
+  summary: 'Found task',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: TaskParamsSchema,
+  },
+  responses: {
+    200: { description: 'Found task' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Task not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('AssignTaskRequest', AssignTaskSchema);
+registry.registerPath({
+  method: 'patch',
+  path: '/tasks/{id}/assign',
+  tags: ['Tasks'],
+  summary: 'Assign task',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: TaskParamsSchema,
+    body: {
+      content: {
+        'application/json': {
+          schema: AssignTaskSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: 'successful assignment' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Task not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('UpdateTaskRequest', UpdateTaskSchema);
+registry.registerPath({
+  method: 'patch',
+  path: '/tasks/{id}',
+  tags: ['Tasks'],
+  summary: 'Updated task',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: TaskParamsSchema,
+    body: {
+      content: {
+        'application/json': {
+          schema: UpdateTaskSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: 'task updated correctly' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Task not found' },
+    401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('CreateCommentRequest', CreateCommentSchema);
+registry.registerPath({
+  method: 'post',
+  path: '/comments',
+  tags: ['Comments'],
+  summary: 'Create comments',
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: CreateCommentSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: 'created comment' },
+    400: { description: 'Invalid request' },
+    401: { description: 'Invalid or expired token' },
   },
 });
 

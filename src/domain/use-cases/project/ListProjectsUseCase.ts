@@ -1,5 +1,5 @@
 import { Project } from '../../entities/Project.js';
-import { IListProjectsUseCase } from '../../ports/driven/IListProjectsUseCase.js';
+import { IListProjectsUseCase } from '../../ports/driving/IListProjectsUseCase.js';
 import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
 import { ProjectStatus } from '../../value-objects/ProjectStatus.js';
 

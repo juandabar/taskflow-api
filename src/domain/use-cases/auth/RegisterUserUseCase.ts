@@ -4,7 +4,7 @@ import { IPasswordHasher } from '../../ports/driven/IPasswordHasher.js';
 import {
   IRegisterUserInput,
   IRegisterUserUseCase,
-} from '../../ports/driven/IRegisterUserUseCase.js';
+} from '../../ports/driving/IRegisterUserUseCase.js';
 import { IUserRepository } from '../../ports/driven/IUserRepository.js';
 import { randomUUID } from 'node:crypto';
 

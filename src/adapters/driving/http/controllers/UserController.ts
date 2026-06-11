@@ -4,11 +4,11 @@ import {
   PathParamsUserSchema,
   RegisterUserSchema,
 } from '../schemas/user.schema.js';
-import { IRegisterUserUseCase } from '../../../../domain/ports/driven/IRegisterUserUseCase.js';
+import { IRegisterUserUseCase } from '../../../../domain/ports/driving/IRegisterUserUseCase.js';
 import { USER_ROLE } from '../../../../domain/value-objects/UserRole.js';
-import { ILoginUserUseCase } from '../../../../domain/ports/driven/ILoginUserUseCase.js';
-import { IListUsersUseCase } from '../../../../domain/ports/driven/IListUsersUseCase.js';
-import { IGetUserByIdUseCase } from '../../../../domain/ports/driven/IGetUserByIdUseCase.js';
+import { ILoginUserUseCase } from '../../../../domain/ports/driving/ILoginUserUseCase.js';
+import { IListUsersUseCase } from '../../../../domain/ports/driving/IListUsersUseCase.js';
+import { IGetUserByIdUseCase } from '../../../../domain/ports/driving/IGetUserByIdUseCase.js';
 import { ForbiddenError } from '../../../../domain/errors/ForbiddenError.js';
 
 export class UserController {

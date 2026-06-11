@@ -1,17 +1,15 @@
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
 import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
-import { TaskStatus } from '../../value-objects/TaskStatus.js';
+import {
+  IUpdateTaskStatusUseCase,
+  UpdateTaskInput,
+} from '../../ports/driving/IUpdateTaskStatusUseCase.js';
 
-interface IInputProps {
-  taskId: string;
-  status: TaskStatus;
-}
-
-export class UpdateTaskStatusUseCase {
+export class UpdateTaskStatusUseCase implements IUpdateTaskStatusUseCase {
   constructor(private taskRepository: ITaskRepository) {}
 
-  async execute(input: IInputProps): Promise<void> {
+  async execute(input: UpdateTaskInput): Promise<void> {
     if (!input.taskId) {
       throw new ValidationError('taskId is required');
     }

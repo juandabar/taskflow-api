@@ -1,10 +1,10 @@
-import { FastifyError, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
+import { ZodError } from 'zod';
 import { ConflictError } from '../../../domain/errors/ConflictError.js';
 import { ForbiddenError } from '../../../domain/errors/ForbiddenError.js';
 import { NotFoundError } from '../../../domain/errors/NotFoundError.js';
 import { UnauthorizedError } from '../../../domain/errors/UnauthorizedError.js';
 import { ValidationError } from '../../../domain/errors/ValidationError.js';
-import { ZodError } from 'zod';
 
 interface IErrorResponseBody {
   type: string;
