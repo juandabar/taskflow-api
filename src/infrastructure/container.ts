@@ -21,6 +21,7 @@ import { CommentController } from '../adapters/driving/http/controllers/CommentC
 import { TaskController } from '../adapters/driving/http/controllers/TaskController.js';
 import { createAuthGuard } from '../adapters/driving/http/middlewares/authGuard.js';
 import { AddCommentUseCase } from '../domain/use-cases/comment/AddCommentUseCase.js';
+import { DeleteCommentUseCase } from '../domain/use-cases/comment/DeleteCommentUseCase.js';
 import { ArchiveProjectUseCase } from '../domain/use-cases/project/ArchiveProjectUseCase.js';
 import { CreateProjectUseCase } from '../domain/use-cases/project/CreateProjectUseCase.js';
 import { GetProjectByIdUseCase } from '../domain/use-cases/project/GetProjectByIdUseCase.js';
@@ -65,6 +66,7 @@ const updateTaskStatusUseCase = new UpdateTaskStatusUseCase(taskRepository);
 
 // use cases - comments
 const addCommentUseCase = new AddCommentUseCase(drizzleCommentRepository);
+const deleteCommentUseCase = new DeleteCommentUseCase(drizzleCommentRepository, userRepository);
 
 // controller instances
 export const userController = new UserController(
@@ -86,6 +88,6 @@ export const taskController = new TaskController(
   assignTaskUseCase,
   updateTaskStatusUseCase,
 );
-export const commentController = new CommentController(addCommentUseCase);
+export const commentController = new CommentController(addCommentUseCase, deleteCommentUseCase);
 
 export const authGuard = createAuthGuard(jwtService);

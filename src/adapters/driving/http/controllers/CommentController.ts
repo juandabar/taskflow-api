@@ -1,9 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { IAddCommentUseCase } from '../../../../domain/ports/driving/IAddCommentUseCase.js';
-import { CreateCommentSchema } from '../schemas/comment.schema.js';
+import { IDeleteCommentUseCase } from '../../../../domain/ports/driving/IDeleteCommentUseCase.js';
+import { CreateCommentSchema, DeleteCommentSchema } from '../schemas/comment.schema.js';
 
 export class CommentController {
-  constructor(private addCommentUseCase: IAddCommentUseCase) {}
+  constructor(
+    private addCommentUseCase: IAddCommentUseCase,
+    private deleteCommentUseCase: IDeleteCommentUseCase,
+  ) {}
 
   async create(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const body = CreateCommentSchema.parse(request.body);
@@ -15,5 +19,11 @@ export class CommentController {
       authorId: createdComment.authorId,
       createdAt: createdComment.createdAt,
     });
+  }
+
+  async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const params = DeleteCommentSchema.parse(request.params);
+    await this.deleteCommentUseCase.execute(params.id, request.userId);
+    reply.send({ detail: 'comment deleted successfully' });
   }
 }

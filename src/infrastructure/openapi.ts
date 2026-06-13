@@ -1,6 +1,9 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
 import { OpenAPIV3 } from 'openapi-types';
-import { CreateCommentSchema } from '../adapters/driving/http/schemas/comment.schema.js';
+import {
+  CreateCommentSchema,
+  DeleteCommentSchema,
+} from '../adapters/driving/http/schemas/comment.schema.js';
 import {
   CreateProjectSchema,
   FileProjectSchema,
@@ -308,6 +311,24 @@ registry.registerPath({
     200: { description: 'created comment' },
     400: { description: 'Invalid request' },
     401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('DeleteCommentPath', DeleteCommentSchema);
+registry.registerPath({
+  method: 'delete',
+  path: '/comments/{id}',
+  tags: ['Comments'],
+  summary: 'Delete comments',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: DeleteCommentSchema,
+  },
+  responses: {
+    200: { description: 'Deleted comment' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Comment not found or user not found' },
+    403: { description: 'action denied' },
   },
 });
 

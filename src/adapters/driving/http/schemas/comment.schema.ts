@@ -11,4 +11,10 @@ export const CreateCommentSchema = z
   })
   .openapi('CreateCommentRequest');
 
+export const DeleteCommentSchema = z
+  .object({
+    id: z.uuid(),
+  })
+  .openapi('DeleteCommentPath');
+
 export type CreateCommentDto = z.infer<typeof CreateCommentSchema>;
