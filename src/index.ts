@@ -1,9 +1,14 @@
+import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { env } from './infrastructure/config/env.js';
 import { logger } from './infrastructure/logger.js';
 import { buildServer } from './infrastructure/server.js';
 
 const main = async (): Promise<void> => {
-  const server = await buildServer();
+  const sqlite = new Database(env.DATABASE_PATH);
+  const db = drizzle(sqlite);
+
+  const server = await buildServer(db);
 
   await server.listen({
     port: env.PORT,

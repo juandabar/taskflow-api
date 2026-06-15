@@ -68,8 +68,7 @@ registry.registerPath({
     },
   },
   responses: {
-    201: { description: 'Logged user token' },
-    404: { description: 'Invalid credentials error' },
+    200: { description: 'Logged user token' },
     401: { description: 'Invalid credentials error' },
   },
 });
@@ -122,7 +121,7 @@ registry.registerPath({
     },
   },
   responses: {
-    200: { description: 'Created Project' },
+    201: { description: 'Created Project' },
     400: { description: 'Invalid request body' },
     401: { description: 'Invalid or expired token' },
   },
@@ -140,6 +139,7 @@ registry.registerPath({
   },
   responses: {
     200: { description: 'Projects' },
+    400: { description: 'Invalid status' },
     401: { description: 'Invalid or expired token' },
   },
 });
@@ -174,7 +174,6 @@ registry.registerPath({
   responses: {
     200: { description: 'Archived project' },
     400: { description: 'Invalid request' },
-    403: { description: 'Action not permitted' },
     404: { description: 'Project not found' },
     401: { description: 'Invalid or expired token' },
   },
@@ -197,7 +196,7 @@ registry.registerPath({
     },
   },
   responses: {
-    200: { description: 'Created task' },
+    201: { description: 'Created task' },
     400: { description: 'Invalid request' },
     404: { description: 'Project not found' },
     409: { description: 'Conflict in task creation' },
@@ -308,7 +307,7 @@ registry.registerPath({
     },
   },
   responses: {
-    200: { description: 'created comment' },
+    201: { description: 'created comment' },
     400: { description: 'Invalid request' },
     401: { description: 'Invalid or expired token' },
   },
@@ -325,7 +324,7 @@ registry.registerPath({
     params: DeleteCommentSchema,
   },
   responses: {
-    200: { description: 'Deleted comment' },
+    204: { description: 'Deleted comment' },
     400: { description: 'Invalid request' },
     404: { description: 'Comment not found or user not found' },
     403: { description: 'action denied' },

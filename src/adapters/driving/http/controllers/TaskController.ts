@@ -24,7 +24,7 @@ export class TaskController {
   async create(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const body = CreateTaskSchema.parse(request.body);
     const createdTask = await this.createTaskUseCase.execute(body);
-    reply.send({
+    reply.status(201).send({
       id: createdTask.id,
       title: createdTask.title,
       description: createdTask.description,
