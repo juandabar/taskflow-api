@@ -1,3 +1,4 @@
+import { Task } from '../../entities/Task.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
 import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
@@ -9,7 +10,7 @@ import {
 export class UpdateTaskStatusUseCase implements IUpdateTaskStatusUseCase {
   constructor(private taskRepository: ITaskRepository) {}
 
-  async execute(input: UpdateTaskInput): Promise<void> {
+  async execute(input: UpdateTaskInput): Promise<Task> {
     if (!input.taskId) {
       throw new ValidationError('taskId is required');
     }
@@ -27,5 +28,7 @@ export class UpdateTaskStatusUseCase implements IUpdateTaskStatusUseCase {
     task.updateStatus(input.status);
 
     await this.taskRepository.update(task);
+
+    return task;
   }
 }

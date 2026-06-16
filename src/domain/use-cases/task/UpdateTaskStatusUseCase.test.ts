@@ -1,12 +1,12 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
-import { UpdateTaskStatusUseCase } from './UpdateTaskStatusUseCase.js';
 import { randomUUID } from 'node:crypto';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Task } from '../../entities/Task.js';
-import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
-import { PRIORITY } from '../../value-objects/Priority.js';
-import { ValidationError } from '../../errors/ValidationError.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
+import { ValidationError } from '../../errors/ValidationError.js';
+import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
+import { PRIORITY } from '../../value-objects/Priority.js';
+import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
+import { UpdateTaskStatusUseCase } from './UpdateTaskStatusUseCase.js';
 
 let taskRepository: ITaskRepository;
 
@@ -60,11 +60,12 @@ describe('UpdateTaskStatusUseCase', () => {
     it('should update the status correctly', async () => {
       vi.mocked(taskRepository.findById).mockResolvedValue(mockTask);
 
-      await updateTaskStatusUseCase.execute({ ...input, taskId: mockTaskId });
+      const result = await updateTaskStatusUseCase.execute({ ...input, taskId: mockTaskId });
 
       expect(taskRepository.update).toHaveBeenCalledWith(mockTask);
       expect(mockTask.status).toBe(TASK_STATUS.IN_PROGRESS);
       expect(taskRepository.findById).toHaveBeenCalledWith(mockTaskId);
+      expect(result).toBeInstanceOf(Task);
     });
   });
 });

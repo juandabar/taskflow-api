@@ -1,3 +1,5 @@
+import { Task } from '../../entities/Task.js';
+
 export interface IAssignTaskUseCase {
-  execute(taskId: string, userId: string): Promise<void>;
+  execute(taskId: string, userId: string): Promise<Task>;
 }

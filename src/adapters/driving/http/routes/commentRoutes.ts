@@ -9,4 +9,7 @@ export async function commentRoutes(
   fastify.post('/comments', { preHandler: [authGuard] }, (req, reply) =>
     controller.create(req, reply),
   );
+  fastify.delete('/comments/:id', { preHandler: [authGuard] }, (req, reply) =>
+    controller.delete(req, reply),
+  );
 }

@@ -1,9 +1,12 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
 import { OpenAPIV3 } from 'openapi-types';
-import { CreateCommentSchema } from '../adapters/driving/http/schemas/comment.schema.js';
 import {
+  CreateCommentSchema,
+  DeleteCommentSchema,
+} from '../adapters/driving/http/schemas/comment.schema.js';
+import {
+  ArchiveProjectSchema,
   CreateProjectSchema,
-  FileProjectSchema,
   PathProjectSchema,
   QueryProjectSchema,
 } from '../adapters/driving/http/schemas/project.schema.js';
@@ -65,8 +68,7 @@ registry.registerPath({
     },
   },
   responses: {
-    201: { description: 'Logged user token' },
-    404: { description: 'Invalid credentials error' },
+    200: { description: 'Logged user token' },
     401: { description: 'Invalid credentials error' },
   },
 });
@@ -119,7 +121,7 @@ registry.registerPath({
     },
   },
   responses: {
-    200: { description: 'Created Project' },
+    201: { description: 'Created Project' },
     400: { description: 'Invalid request body' },
     401: { description: 'Invalid or expired token' },
   },
@@ -137,6 +139,7 @@ registry.registerPath({
   },
   responses: {
     200: { description: 'Projects' },
+    400: { description: 'Invalid status' },
     401: { description: 'Invalid or expired token' },
   },
 });
@@ -158,7 +161,7 @@ registry.registerPath({
   },
 });
 
-registry.register('FileProjectRequest', FileProjectSchema);
+registry.register('FileProjectRequest', ArchiveProjectSchema);
 registry.registerPath({
   method: 'patch',
   path: '/projects/{id}/archive',
@@ -166,12 +169,11 @@ registry.registerPath({
   summary: 'Archive project',
   security: [{ bearerAuth: [] }],
   request: {
-    params: FileProjectSchema,
+    params: ArchiveProjectSchema,
   },
   responses: {
     200: { description: 'Archived project' },
     400: { description: 'Invalid request' },
-    403: { description: 'Action not permitted' },
     404: { description: 'Project not found' },
     401: { description: 'Invalid or expired token' },
   },
@@ -194,7 +196,7 @@ registry.registerPath({
     },
   },
   responses: {
-    200: { description: 'Created task' },
+    201: { description: 'Created task' },
     400: { description: 'Invalid request' },
     404: { description: 'Project not found' },
     409: { description: 'Conflict in task creation' },
@@ -305,9 +307,27 @@ registry.registerPath({
     },
   },
   responses: {
-    200: { description: 'created comment' },
+    201: { description: 'created comment' },
     400: { description: 'Invalid request' },
     401: { description: 'Invalid or expired token' },
+  },
+});
+
+registry.register('DeleteCommentPath', DeleteCommentSchema);
+registry.registerPath({
+  method: 'delete',
+  path: '/comments/{id}',
+  tags: ['Comments'],
+  summary: 'Delete comments',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: DeleteCommentSchema,
+  },
+  responses: {
+    204: { description: 'Deleted comment' },
+    400: { description: 'Invalid request' },
+    404: { description: 'Comment not found or user not found' },
+    403: { description: 'action denied' },
   },
 });
 

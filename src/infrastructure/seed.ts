@@ -1,11 +1,11 @@
 import Database from 'better-sqlite3';
-import { logger } from './logger.js';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { env } from './config/env.js';
-import { RegisterUserUseCase } from '../domain/use-cases/auth/RegisterUserUseCase.js';
-import { BcryptPasswordHasher } from '../adapters/driven/security/BcryptPasswordHasher.js';
 import { DrizzleUserRepository } from '../adapters/driven/persistence/drizzle/repositories/DrizzleUserRepository.js';
+import { BcryptPasswordHasher } from '../adapters/driven/security/BcryptPasswordHasher.js';
+import { RegisterUserUseCase } from '../domain/use-cases/auth/RegisterUserUseCase.js';
 import { USER_ROLE } from '../domain/value-objects/UserRole.js';
+import { env } from './config/env.js';
+import { logger } from './logger.js';
 
 const sqlite = new Database(env.DATABASE_PATH);
 const db = drizzle(sqlite);

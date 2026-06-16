@@ -1,3 +1,4 @@
+import { Task } from '../../entities/Task.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
 import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
@@ -6,7 +7,7 @@ import { IAssignTaskUseCase } from '../../ports/driving/IAssignTaskUseCase.js';
 export class AssignTaskUseCase implements IAssignTaskUseCase {
   constructor(private taskRepository: ITaskRepository) {}
 
-  async execute(taskId: string, userId: string): Promise<void> {
+  async execute(taskId: string, userId: string): Promise<Task> {
     if (!taskId) {
       throw new ValidationError('taskId is required');
     }
@@ -24,5 +25,7 @@ export class AssignTaskUseCase implements IAssignTaskUseCase {
     task.assign(userId);
 
     await this.taskRepository.update(task);
+
+    return task;
   }
 }

@@ -1,12 +1,12 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { AssignTaskUseCase } from './AssignTaskUseCase.js';
-import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
-import { ValidationError } from '../../errors/ValidationError.js';
-import { NotFoundError } from '../../errors/NotFoundError.js';
-import { Task } from '../../entities/Task.js';
 import { randomUUID } from 'node:crypto';
-import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Task } from '../../entities/Task.js';
+import { NotFoundError } from '../../errors/NotFoundError.js';
+import { ValidationError } from '../../errors/ValidationError.js';
+import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
 import { PRIORITY } from '../../value-objects/Priority.js';
+import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
+import { AssignTaskUseCase } from './AssignTaskUseCase.js';
 
 let taskRepository: ITaskRepository;
 let assignTaskUseCase: AssignTaskUseCase;
@@ -54,9 +54,10 @@ describe('AssignTaskUseCase', () => {
     it('should assign the task correctly', async () => {
       vi.mocked(taskRepository.findById).mockResolvedValue(mockTask);
 
-      await assignTaskUseCase.execute(mockTask.id, 'userId');
+      const result = await assignTaskUseCase.execute(mockTask.id, 'userId');
       expect(mockTask.assigneeId).toBe('userId');
       expect(taskRepository.update).toHaveBeenCalledWith(mockTask);
+      expect(result).toBeInstanceOf(Task);
     });
   });
 });

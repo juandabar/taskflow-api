@@ -1,3 +1,4 @@
+import { Task } from '../../entities/Task.js';
 import { TaskStatus } from '../../value-objects/TaskStatus.js';
 
 export interface UpdateTaskInput {
@@ -6,5 +7,5 @@ export interface UpdateTaskInput {
 }
 
 export interface IUpdateTaskStatusUseCase {
-  execute(input: UpdateTaskInput): Promise<void>;
+  execute(input: UpdateTaskInput): Promise<Task>;
 }

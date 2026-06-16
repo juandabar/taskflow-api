@@ -1,13 +1,15 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
-import { ListTasksByProjectUseCase } from './ListTasksByProjectUseCase.js';
-import { ValidationError } from '../../errors/ValidationError.js';
 import { randomUUID } from 'node:crypto';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Task } from '../../entities/Task.js';
-import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
+import { ValidationError } from '../../errors/ValidationError.js';
+import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
+import { ITaskRepository } from '../../ports/driven/ITaskRepository.js';
 import { PRIORITY } from '../../value-objects/Priority.js';
+import { TASK_STATUS } from '../../value-objects/TaskStatus.js';
+import { ListTasksByProjectUseCase } from './ListTasksByProjectUseCase.js';
 
 let taskRepository: ITaskRepository;
+let projectRepository: IProjectRepository;
 
 let listTasksByProjectUseCase: ListTasksByProjectUseCase;
 
@@ -20,7 +22,14 @@ describe('ListTasksByProjectUseCase', () => {
       save: vi.fn(),
     };
 
-    listTasksByProjectUseCase = new ListTasksByProjectUseCase(taskRepository);
+    projectRepository = {
+      findAll: vi.fn(),
+      findById: vi.fn(),
+      save: vi.fn(),
+      update: vi.fn(),
+    };
+
+    listTasksByProjectUseCase = new ListTasksByProjectUseCase(taskRepository, projectRepository);
   });
 
   const mockProjectId = randomUUID();

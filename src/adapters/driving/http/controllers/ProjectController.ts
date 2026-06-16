@@ -1,14 +1,14 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IArchiveProjectUseCase } from '../../../../domain/ports/driving/IArchiveProjectUseCase.js';
+import { ICreateProjectUseCase } from '../../../../domain/ports/driving/ICreateProjectUseCase.js';
+import { IGetProjectByIdUseCase } from '../../../../domain/ports/driving/IGetProjectByIdUseCase.js';
+import { IListProjectsUseCase } from '../../../../domain/ports/driving/IListProjectsUseCase.js';
 import {
+  ArchiveProjectSchema,
   CreateProjectSchema,
-  FileProjectSchema,
   PathProjectSchema,
   QueryProjectSchema,
 } from '../schemas/project.schema.js';
-import { ICreateProjectUseCase } from '../../../../domain/ports/driving/ICreateProjectUseCase.js';
-import { IListProjectsUseCase } from '../../../../domain/ports/driving/IListProjectsUseCase.js';
-import { IGetProjectByIdUseCase } from '../../../../domain/ports/driving/IGetProjectByIdUseCase.js';
-import { IArchiveProjectUseCase } from '../../../../domain/ports/driving/IArchiveProjectUseCase.js';
 
 export class ProjectController {
   constructor(
@@ -29,7 +29,7 @@ export class ProjectController {
 
     const createdProject = await this.createProjectUseCase.execute(data);
 
-    reply.send({
+    reply.status(201).send({
       id: createdProject.id,
       name: createdProject.name,
       description: createdProject.description,
@@ -71,8 +71,8 @@ export class ProjectController {
     });
   }
 
-  async file(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const params = FileProjectSchema.parse(request.params);
+  async archive(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const params = ArchiveProjectSchema.parse(request.params);
 
     await this.achiveProjectUseCase.execute(request.userId, params.id);
 

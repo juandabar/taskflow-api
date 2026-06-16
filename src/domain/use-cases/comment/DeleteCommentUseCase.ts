@@ -3,9 +3,10 @@ import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
 import { ICommentRepository } from '../../ports/driven/ICommentRepository.js';
 import { IUserRepository } from '../../ports/driven/IUserRepository.js';
+import { IDeleteCommentUseCase } from '../../ports/driving/IDeleteCommentUseCase.js';
 import { USER_ROLE } from '../../value-objects/UserRole.js';
 
-export class DeleteCommentUseCase {
+export class DeleteCommentUseCase implements IDeleteCommentUseCase {
   constructor(
     private commentRepository: ICommentRepository,
     private userRepository: IUserRepository,
@@ -41,6 +42,6 @@ export class DeleteCommentUseCase {
       );
     }
 
-    return await this.commentRepository.delete(commentId);
+    await this.commentRepository.delete(commentId);
   }
 }
