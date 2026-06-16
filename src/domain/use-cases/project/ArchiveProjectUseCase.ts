@@ -1,8 +1,8 @@
 import { ForbiddenError } from '../../errors/ForbiddenError.js';
 import { NotFoundError } from '../../errors/NotFoundError.js';
 import { ValidationError } from '../../errors/ValidationError.js';
-import { IArchiveProjectUseCase } from '../../ports/driving/IArchiveProjectUseCase.js';
 import { IProjectRepository } from '../../ports/driven/IProjectRepository.js';
+import { IArchiveProjectUseCase } from '../../ports/driving/IArchiveProjectUseCase.js';
 
 export class ArchiveProjectUseCase implements IArchiveProjectUseCase {
   constructor(private projectRepository: IProjectRepository) {}

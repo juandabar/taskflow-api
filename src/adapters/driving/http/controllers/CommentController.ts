@@ -11,7 +11,11 @@ export class CommentController {
 
   async create(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const body = CreateCommentSchema.parse(request.body);
-    const createdComment = await this.addCommentUseCase.execute(body);
+    const createdComment = await this.addCommentUseCase.execute({
+      content: body.content,
+      taskId: body.taskId,
+      authorId: request.userId,
+    });
     reply.status(201).send({
       id: createdComment.id,
       content: createdComment.content,
@@ -24,6 +28,6 @@ export class CommentController {
   async delete(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const params = DeleteCommentSchema.parse(request.params);
     await this.deleteCommentUseCase.execute(params.id, request.userId);
-    reply.status(204).send({ detail: 'comment deleted successfully' });
+    reply.status(204).send();
   }
 }

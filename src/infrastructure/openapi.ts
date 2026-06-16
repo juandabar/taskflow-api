@@ -5,8 +5,8 @@ import {
   DeleteCommentSchema,
 } from '../adapters/driving/http/schemas/comment.schema.js';
 import {
+  ArchiveProjectSchema,
   CreateProjectSchema,
-  FileProjectSchema,
   PathProjectSchema,
   QueryProjectSchema,
 } from '../adapters/driving/http/schemas/project.schema.js';
@@ -161,7 +161,7 @@ registry.registerPath({
   },
 });
 
-registry.register('FileProjectRequest', FileProjectSchema);
+registry.register('FileProjectRequest', ArchiveProjectSchema);
 registry.registerPath({
   method: 'patch',
   path: '/projects/{id}/archive',
@@ -169,7 +169,7 @@ registry.registerPath({
   summary: 'Archive project',
   security: [{ bearerAuth: [] }],
   request: {
-    params: FileProjectSchema,
+    params: ArchiveProjectSchema,
   },
   responses: {
     200: { description: 'Archived project' },

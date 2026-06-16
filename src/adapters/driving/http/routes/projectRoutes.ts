@@ -16,6 +16,6 @@ export async function projectRoutes(
     controller.find(req, reply),
   );
   fastify.patch('/projects/:id/archive', { preHandler: [authGuard] }, (req, reply) =>
-    controller.file(req, reply),
+    controller.archive(req, reply),
   );
 }

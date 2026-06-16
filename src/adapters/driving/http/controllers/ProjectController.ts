@@ -4,8 +4,8 @@ import { ICreateProjectUseCase } from '../../../../domain/ports/driving/ICreateP
 import { IGetProjectByIdUseCase } from '../../../../domain/ports/driving/IGetProjectByIdUseCase.js';
 import { IListProjectsUseCase } from '../../../../domain/ports/driving/IListProjectsUseCase.js';
 import {
+  ArchiveProjectSchema,
   CreateProjectSchema,
-  FileProjectSchema,
   PathProjectSchema,
   QueryProjectSchema,
 } from '../schemas/project.schema.js';
@@ -71,8 +71,8 @@ export class ProjectController {
     });
   }
 
-  async file(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const params = FileProjectSchema.parse(request.params);
+  async archive(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const params = ArchiveProjectSchema.parse(request.params);
 
     await this.achiveProjectUseCase.execute(request.userId, params.id);
 

@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
+import { z } from 'zod';
 import { PROJECT_STATUS_VALUES } from '../../../../domain/value-objects/ProjectStatus.js';
 
 extendZodWithOpenApi(z);
@@ -23,7 +23,7 @@ export const PathProjectSchema = z
   })
   .openapi('ProjectPath');
 
-export const FileProjectSchema = z
+export const ArchiveProjectSchema = z
   .object({
     id: z.uuid(),
   })

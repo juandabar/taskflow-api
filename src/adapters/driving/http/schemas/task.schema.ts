@@ -8,7 +8,7 @@ extendZodWithOpenApi(z);
 export const CreateTaskSchema = z
   .object({
     title: z.string().min(5),
-    description: z.string(),
+    description: z.string().min(5),
     projectId: z.uuid(),
     priority: z.enum(PRIORITY_VALUES),
     dueDate: z.iso

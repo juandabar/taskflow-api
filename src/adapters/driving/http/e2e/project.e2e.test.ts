@@ -10,7 +10,8 @@ const mockBadProjectId = 'bace7ede-3650-4104-868d-f056f1b114b5';
 
 describe('POST /projects', async () => {
   beforeEach(async () => {
-    app = await buildTestApp();
+    const utils = await buildTestApp();
+    app = utils[0];
     await registerAs(app);
     mockToken = await loginAs(app);
   });
@@ -61,7 +62,8 @@ describe('POST /projects', async () => {
 
 describe('GET /projects', async () => {
   beforeEach(async () => {
-    app = await buildTestApp();
+    const utils = await buildTestApp();
+    app = utils[0];
     await registerAs(app);
     mockToken = await loginAs(app);
   });
@@ -105,7 +107,8 @@ describe('GET /projects', async () => {
 
 describe('GET /projects/:id', () => {
   beforeEach(async () => {
-    app = await buildTestApp();
+    const utils = await buildTestApp();
+    app = utils[0];
     await registerAs(app);
     mockToken = await loginAs(app);
   });
@@ -148,7 +151,8 @@ describe('GET /projects/:id', () => {
 
 describe('PATCH /projects/:id/archive', () => {
   beforeEach(async () => {
-    app = await buildTestApp();
+    const utils = await buildTestApp();
+    app = utils[0];
     await registerAs(app);
     mockToken = await loginAs(app);
   });

@@ -82,19 +82,17 @@ export class TaskController {
   async assign(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const params = TaskParamsSchema.parse(request.params);
     const body = AssignTaskSchema.parse(request.body);
-    await this.assignTaskUseCase.execute(params.id, body.userId);
-    reply.send({
-      detail: 'task assigned correctly',
-    });
+    const task = await this.assignTaskUseCase.execute(params.id, body.userId);
+    reply.send(task);
   }
 
   async update(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const params = TaskParamsSchema.parse(request.params);
     const body = UpdateTaskSchema.parse(request.body);
-    await this.updateTaskStatusUseCase.execute({
+    const task = await this.updateTaskStatusUseCase.execute({
       taskId: params.id,
       status: body.status,
     });
-    reply.send({ detail: 'status updated correctly' });
+    reply.send(task);
   }
 }

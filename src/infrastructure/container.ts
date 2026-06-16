@@ -48,7 +48,7 @@ export function createContainer(db: BetterSQLite3Database): IContainer {
   const userRepository = new DrizzleUserRepository(db);
   const projectRepository = new DrizzleProjectRepository(db);
   const taskRepository = new DrizzleTaskRepository(db);
-  const drizzleCommentRepository = new DrizzleCommentRepository(db);
+  const commentRepository = new DrizzleCommentRepository(db);
 
   // use cases - Users
   const registerUserUseCase = new RegisterUserUseCase(userRepository, passwordHasher);
@@ -64,14 +64,17 @@ export function createContainer(db: BetterSQLite3Database): IContainer {
 
   // use cases - Tasks
   const createTaskUseCase = new CreateTaskUseCase(taskRepository, projectRepository);
-  const listTasksByProjectUseCase = new ListTasksByProjectUseCase(taskRepository);
+  const listTasksByProjectUseCase = new ListTasksByProjectUseCase(
+    taskRepository,
+    projectRepository,
+  );
   const getTaskByIdUseCase = new GetTaskByIdUseCase(taskRepository);
   const assignTaskUseCase = new AssignTaskUseCase(taskRepository);
   const updateTaskStatusUseCase = new UpdateTaskStatusUseCase(taskRepository);
 
   // use cases - comments
-  const addCommentUseCase = new AddCommentUseCase(drizzleCommentRepository);
-  const deleteCommentUseCase = new DeleteCommentUseCase(drizzleCommentRepository, userRepository);
+  const addCommentUseCase = new AddCommentUseCase(commentRepository, taskRepository);
+  const deleteCommentUseCase = new DeleteCommentUseCase(commentRepository, userRepository);
   // controller instances
   const userController = new UserController(
     registerUserUseCase,

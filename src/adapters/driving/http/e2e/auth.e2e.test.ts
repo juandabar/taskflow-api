@@ -7,7 +7,8 @@ let app: FastifyInstance;
 
 describe('POST /auth/register', () => {
   beforeEach(async () => {
-    app = await buildTestApp();
+    const utils = await buildTestApp();
+    app = utils[0];
   });
 
   it('should register a user and return 201', async () => {
@@ -58,7 +59,8 @@ describe('POST /auth/register', () => {
 
 describe('POST /auth/login', () => {
   beforeEach(async () => {
-    app = await buildTestApp();
+    const utils = await buildTestApp();
+    app = await utils[0];
 
     await app.inject({
       method: 'POST',

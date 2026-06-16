@@ -7,7 +7,6 @@ export const CreateCommentSchema = z
   .object({
     content: z.string().min(5),
     taskId: z.uuid(),
-    authorId: z.uuid(),
   })
   .openapi('CreateCommentRequest');
 
